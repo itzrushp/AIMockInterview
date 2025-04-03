@@ -1,13 +1,15 @@
 import { db } from "@/config/firebase.config";
-import {LoaderPage} from "@/layouts/loader-page";
+import { LoaderPage } from "@/layouts/loader-page";
+import { User } from "@/types";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { getDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const AuthHanlder = () => {
   const { isSignedIn } = useAuth();
   const { user } = useUser();
+
   const pathname = useLocation().pathname;
   const navigate = useNavigate();
 
@@ -18,18 +20,28 @@ const AuthHanlder = () => {
       if (isSignedIn && user) {
         setLoading(true);
         try {
-          const userSnap = await getDoc(doc(db,"users", user.id)); // Missing document reference, needs to be completed
-          if(!userSnap.exists()) {
-            
+          const userSanp = await getDoc(doc(db, "users", user.id));
+          if (!userSanp.exists()) {
+            const userData: User = {
+              id: user.id,
+              name: user.fullName || user.firstName || "Anonymous",
+              email: user.primaryEmailAddress?.emailAddress || "N/A",
+              imageUrl: user.imageUrl,
+              createdAt: serverTimestamp(),
+              updatedAt: serverTimestamp(),
+            };
+
+            await setDoc(doc(db, "users", user.id), userData);
           }
         } catch (error) {
-          console.log("Error on storing the user data", error);
+          console.log("Error on storing the user data : ", error);
+        } finally {
+          setLoading(false);
         }
-        setLoading(false); // Set loading to false after the operation is complete
       }
     };
 
-    storeUserData(isSignedIn, user, pathname, navigate); // Passing arguments to the async function is not needed if you're using closures
+    storeUserData();
   }, [isSignedIn, user, pathname, navigate]);
 
   if (loading) {
