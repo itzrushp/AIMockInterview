@@ -6,7 +6,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { NavigationRoutes } from "./ui/navigation-routes";
+import { NavigationRoutes } from "./navigation-routes";
 import { NavLink } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@clerk/clerk-react";
