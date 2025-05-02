@@ -1,18 +1,18 @@
 import { Interview } from "@/types";
 import { useNavigate } from "react-router-dom";
-// import {
-//   Card,
-//   CardDescription,
-//   CardFooter,
-//   CardTitle,
-// } from "@/components/ui/card";
-// import { Badge } from "./ui/badge";
-// import { TooltipButton } from "./tooltip-button";
-// import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "./ui/badge";
+import { TooltipButton } from "./tooltip-button";
+import { cn } from "@/lib/utils";
 import { Eye, Newspaper, Sparkles } from "lucide-react";
 
 interface InterviewPinProps {
-  interview: Interview;
+  interview: Interview; 
   onMockPage?: boolean;
 }
 
