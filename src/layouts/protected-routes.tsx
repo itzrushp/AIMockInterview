@@ -1,17 +1,19 @@
+import { LoaderPage } from "@/routes/loader-page";
 import { useAuth } from "@clerk/clerk-react";
-import React from "react";
-import { LoaderPage } from "./loader-page";
 import { Navigate } from "react-router-dom";
-const ProtectedRoutes = ({ children }: { children: React.ReactNode }) => {
+
+const ProtectRoutes = ({ children }: { children: React.ReactNode }) => {
   const { isLoaded, isSignedIn } = useAuth();
+
   if (!isLoaded) {
     return <LoaderPage />;
   }
-  if(!isSignedIn) {
-    return <Navigate to={"/sigin/"} replace />
+
+  if (!isSignedIn) {
+    return <Navigate to={"/signin"} replace />;
   }
-  return <div>ProtectedRoutes</div>;
+
+  return children;
 };
 
-export default ProtectedRoutes;
- 
+export default ProtectRoutes;

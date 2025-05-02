@@ -1,5 +1,5 @@
 import { db } from "@/config/firebase.config";
-import { LoaderPage } from "@/layouts/loader-page";
+import { LoaderPage } from "@/routes/loader-page";
 import { User } from "@/types";
 import { useAuth, useUser } from "@clerk/clerk-react";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
@@ -28,7 +28,7 @@ const AuthHanlder = () => {
               email: user.primaryEmailAddress?.emailAddress || "N/A",
               imageUrl: user.imageUrl,
               createdAt: serverTimestamp(),
-              updatedAt: serverTimestamp(),
+              updateAt: serverTimestamp(),
             };
 
             await setDoc(doc(db, "users", user.id), userData);
